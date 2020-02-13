@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Chat Application</title>
     <link rel="icon" href="./img/favicon.png">
-    <link rel="stylesheet" href="./css/styles.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
 <div class="chat">
@@ -24,7 +24,7 @@
         </div>
     </div>
 </div>
-Chat APP
+
 
 <script id="message-template" type="text/html">
     <div class="message">
@@ -32,8 +32,14 @@ Chat APP
             <span class="message__name">{{username}}</span>
             <span class="message__meta">{{createdAt}}</span>
         </p>
-        <p >{{message}}</p>
+        <p>
+            <span>{{message}}</span>
+            <span id="like" class="message__button" onclick="clickLike()"  >Like</span>
+        </p>
     </div>
+
+
+
 </script>
 
 <script id="location-message-template" type="text/html">

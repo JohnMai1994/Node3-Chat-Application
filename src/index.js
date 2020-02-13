@@ -45,6 +45,14 @@ io.on("connection", (socket)=> {
         //    io.to.emit, socket.broadcast.to.emit
     });
 
+    socket.on("sendLike", (message, callback) => {
+        const user = getUser(socket.id);
+        io.to(user.room).emit("message", generateMessage("Admin", `${user.username} like it ${message}` ));
+        callback;
+
+    })
+
+
     socket.on('sendMessage', (message, callback)=> {
         const filter = new Filter();
         const user = getUser(socket.id);

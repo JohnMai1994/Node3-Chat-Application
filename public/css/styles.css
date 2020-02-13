@@ -129,6 +129,27 @@ button:disabled {
     font-size: 14px;
 }
 
+.message__button{
+    float: right;
+    cursor: pointer;
+
+    padding: 3px 8px;
+    background: #7C5CBF;
+    border: none;
+    color: white;
+    font-size: 13px;
+    transition: background .3s ease;
+
+}
+.message__button:hover {
+    background: #6b47b8;
+}
+
+.message__button:disabled {
+    cursor: default;
+    background: #7c5cbf94;
+}
+
 .message a {
     color: #0070CC;
 }

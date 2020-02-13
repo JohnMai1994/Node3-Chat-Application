@@ -1,11 +1,18 @@
 const socket = io();
 
 // Elements
+    //Send Button
 const $messageFrom = document.querySelector("#message-form");
 const $messageFormInput = $messageFrom.querySelector("input");
 const $messageFormButton = $messageFrom.querySelector("button");
+    //Location Button
 const $sendLocationButton = document.querySelector("#send-location");
 const $messages = document.querySelector("#messages");
+    //Like Button
+
+const $clickLikeButton = document.querySelector("#like");
+
+
 
 // server (emit) -> client (receive) --acknowledgement --> server
 
@@ -51,7 +58,7 @@ socket.on("message", (message)=>{
     const html = Mustache.render(messageTemplate, {
         username: message.username,
         message: message.text,
-        createdAt: moment(message.createdAt).format("dddd H:mm a")
+        createdAt: moment(message.createdAt).format("YYYY-MM-DD hh:mm a")
     });
     // afterbegin, afterend, beforebegin, beforeend
     $messages.insertAdjacentHTML("beforeend", html);
@@ -63,7 +70,7 @@ socket.on("locationMessage", (message) => {
     const html = Mustache.render(locationMessageTemplate, {
         username: message.username,
         url: message.url,
-        createdAt: moment(message.createdAt).format("dddd H:mm a")
+        createdAt: moment(message.createdAt).format("YYYY-MM-DD hh:mm a")
     })
     $messages.insertAdjacentHTML("beforeend", html);
     autoscroll();
@@ -78,12 +85,12 @@ socket.on("roomData", ({room, users}) => {
     });
     document.querySelector("#sidebar").innerHTML = html;
 
-
-})
-
+});
 
 
+// Send Message Button Submit
 $messageFrom.addEventListener("submit", (e)=> {
+
     e.preventDefault();
 
     $messageFormButton.setAttribute("disabled", "disabled");
@@ -101,6 +108,7 @@ $messageFrom.addEventListener("submit", (e)=> {
     });
 });
 
+// Send Location Button Click
 $sendLocationButton.addEventListener('click', ()=> {
 
     if (!navigator.geolocation) {
@@ -119,6 +127,18 @@ $sendLocationButton.addEventListener('click', ()=> {
         });
     })
 });
+
+// clickLike Button
+function clickLike() {
+    socket.emit("sendLike", "", (error) => {
+        if (error) {
+            return console.log(error)
+        }
+        console.log("Message delivered!")
+    })
+}
+
+
 
 socket.emit("join", {username, room}, (error)=> {
     if (error) {
